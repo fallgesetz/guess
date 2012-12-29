@@ -1,2 +1,2 @@
 Images = new Meteor.Collection("TopUsers");
-Links = [];
+Links = [['monkey', 'http://monkey.com/monkey.jpg']];
