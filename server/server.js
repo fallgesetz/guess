@@ -14,6 +14,9 @@ function google_image_query(term, callback) {
 	);
 }
 
+function get_image_to_base64(link) {
+}
+
 Meteor.startup(function() {
 	_.map(SearchTerms['terms'], function (term) {
 		if ( !Links.findOne({'term': term}) ) {
