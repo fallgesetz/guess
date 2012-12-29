@@ -1,8 +1,7 @@
 
 function google_image_query(term, callback) {
 	Meteor.http.get(
-		//"https://www.googleapis.com/customsearch/v1",
-		"foo",
+		"https://www.googleapis.com/customsearch/v1",
 		{
 			params:{
 				key :"AIzaSyBTCfVx3h1kApUfBdebGjxZatjfWvXvVfo",
@@ -16,23 +15,23 @@ function google_image_query(term, callback) {
 }
 
 Meteor.startup(function() {
-	/*
 	_.map(SearchTerms['terms'], function (term) {
-		google_image_query(term, function(error, res) {
-			var link = res["data"]["items"][0]["link"];
-			console.log(link);
-		        Links.push([term, link]);
-		});
+		if ( !Links.findOne({'term': term}) ) {
+			google_image_query(term, function(error, res) {
+				var link = res["data"]["items"][0]["link"];
+				Links.insert({'term': term, 'link': link});
+			});
+		}
 	});
-       */
+	console.log(Links);
 });
 
 Meteor.methods({
 	getImage : function () {
-		var rndint = Math.round(Math.random() * Links.length);
-		console.log("called");
-		console.log(Links[rndint]);
-		return Links[rndint];
+		var rndint = Math.round(Math.random() * SearchTerms['terms'].length);
+		var term = SearchTerms['terms'][rndint];
+		var agg = Links.findOne({'term': term});
+		return agg.link;
 	},
 	checkGuess : function () {
 		console.log(this.userId);
